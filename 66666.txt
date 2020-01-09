@@ -1,0 +1,80 @@
+
+
+var dht;
+var matrix;
+var rgbled;
+
+
+boardReady({device: 'YRNA2'}, function (board) {
+  board.systemReset();
+  board.samplingInterval = 250;
+  dht = getDht(board, 11);
+  matrix = getMax7219(board, 7, 8, 9);
+  rgbled = getRGBLed(board, 6, 9, 10);
+  dht.read(function(evt){
+    document.getElementById("demo-area-01-show").innerHTML = (['·Å«×¡G',dht.temperature,'¢J<br/>Àã«×¡G',dht.humidity,'  %'].join(''));
+    rgbled.setColor('#33cc00' , function(){
+        if ((dht.temperature <= 35 && dht.temperature >= 25) && (dht.humidity >= 0 && dht.humidity < 30)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("143264c0c0643214");
+      }
+
+    });
+    rgbled.setColor('#ff0000' , function(){
+        if ((dht.temperature <= 35 && dht.temperature >= 25) && (dht.humidity >= 31 && dht.humidity < 60)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("0462646060646204");
+      }
+      if ((dht.temperature <= 35 && dht.temperature >= 25) && (dht.humidity >= 61 && dht.humidity < 100)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("84c264303064c284");
+      }
+      if ((dht.temperature <= 24 && dht.temperature >= 15) && (dht.humidity >= 0 && dht.humidity < 30)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("103066c0c0663010");
+      }
+      if ((dht.temperature <= 24 && dht.temperature >= 15) && (dht.humidity >= 31 && dht.humidity < 60)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("0060666060666000");
+      }
+      if ((dht.temperature <= 24 && dht.temperature >= 15) && (dht.humidity >= 61 && dht.humidity < 100)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("80c066303066c080");
+      }
+      if ((dht.temperature < 15 || dht.temperature > 35) && (dht.humidity >= 0 && dht.humidity < 30)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("153265c0c0653215");
+      }
+      if ((dht.temperature < 15 || dht.temperature > 35) && (dht.humidity >= 31 && dht.humidity < 60)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("0562656060656205");
+      }
+      if ((dht.temperature < 15 || dht.temperature > 35) && (dht.humidity >= 61 && dht.humidity < 100)) {
+        matrix.animateStop();
+        matrix.on("0000000000000000");
+        matrix.on("85c265303065c285");
+      }
+
+    });
+  }, 500);
+});
+
+
+
+
+
+
+
+
+
+
+
+ 
